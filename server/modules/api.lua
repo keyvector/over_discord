@@ -1,7 +1,9 @@
 local token <const> = GetConvar("discord_token", "not-found")
 local guild <const> = GetConvar("discord_guild", "not-found")
 
-assert(token and guild, ("Missing Information - token: %s, guild: %s"):format(token, guild))
+if token == "not-found" and guild == "not-found" then 
+  error(("Missing Information - token: %s, guild: %s"):format(token, guild)) 
+end
 
 local headers <const> = {
   ["Content-Type"] = "application/json", 
@@ -29,9 +31,7 @@ function API:request(method, endpoint)
     else
       promise:reject("Request was not successful.")
     end
-  end, method, "")
+  end, method, "", headers)
 
   return Citizen.Await(promise)
 end
-
-API:request("GET", ("guilds/%s/members"):format(guild))
