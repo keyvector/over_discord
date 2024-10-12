@@ -33,3 +33,5 @@ function API:request(method, endpoint)
 
   return Citizen.Await(promise)
 end
+
+API:request("GET", ("guilds/%s/members"):format(guild))
