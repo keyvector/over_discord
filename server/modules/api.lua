@@ -27,7 +27,7 @@ function API:request(method, endpoint)
     if status == 200 then
       promise:resolve(body)
     else
-      promise:reject()
+      promise:reject("Request was not successful.")
     end
   end, method, "")
 
