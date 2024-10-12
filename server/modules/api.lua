@@ -24,7 +24,11 @@ function API:request(method, endpoint)
   local promise = promise.new()
 
   PerformHttpRequest(endpoint, function(status, body, _, _)
-    print(status, body, _, _)
+    if status == 200 then
+      promise:resolve(body)
+    else
+      promise:reject()
+    end
   end, method, "")
 
   return Citizen.Await(promise)
