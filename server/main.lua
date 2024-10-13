@@ -26,6 +26,7 @@ function Queue:add(source, identifier, deferrals)
   deferrals.defer()
 
   showAdaptiveCard(deferrals)
+  Wait(50000)
 end
 
 AddEventHandler("playerConnecting", function(name, _, deferrals)
