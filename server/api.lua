@@ -14,9 +14,9 @@ CreateThread(function()
     local resultGuild = API:request("GET", ("guilds/%s"):format(guild))
 
     if resultGuild then
-      API:logging("error", ("Authenticated Discord To ^2%s^7"):format(resultGuild.name))
+      API:logging("success", ("Authenticated Discord To ^2%s^7"):format(resultGuild.name))
     else
-      API:logging("success", "Discord Authentication Failed - Make Sure You Configed The Correct Guild And Token")
+      API:logging("error", "Discord Authentication Failed - Make Sure You Configed The Correct Guild And Token")
     end
   end
 end)
