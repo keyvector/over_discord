@@ -26,16 +26,42 @@ function API:request(method, endpoint)
     return self:logging("warn", ("Missing Information - token: %s, guild: %s"):format(token, guild))
   end
 
-  local endpoint <const> = ("https://discord.com/api/%s"):format(endpoint)
+  local endpoint <const> = ("https://discord.com/api/v10/%s"):format(endpoint)
   local promise = promise.new()
 
   PerformHttpRequest(endpoint, function(status, body, _, _)
     if status == 200 then
-      promise:resolve(body)
+      promise:resolve(json.decode(body))
     else
       promise:reject("Request was not successful.")
     end
   end, method, "", headers)
 
   return Citizen.Await(promise)
+end
+
+function API:createCache(player)
+  if self:fetchCache(player) then
+    return self:logging("warn", ("Cache for %s already exists"):format(GetPlayerName(player)))
+  end
+
+  -- local identifier = GetPlayerIdentifierByType(player, "discord"):gsub("discord:", "")
+
+  -- if not identifier then
+  --   self.cache[player] = {
+  --     username = "Not Found",
+  --     avatar = "https://files.catbox.moe/1zzk92.png", -- Default Avatar
+  --     roles = {}
+  --   }
+  -- end
+
+  local username = self:request("GET", "users/427864377043976216")
+
+  print(json.encode(username, { indent = true }))
+end
+
+API:createCache(1)
+
+function API:fetchCache(player)
+  return self.cache[player]
 end
