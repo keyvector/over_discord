@@ -102,3 +102,8 @@ end
 function API:GetDiscordAvatar(playerId)
   return self.cache[playerId]?.avatar
 end
+
+exports("FetchCache", function(playerId) API:fetchCache(playerId) end)
+exports("GetDiscordRoles", function(playerId) API:GetDiscordRoles(playerId) end)
+exports("GetDiscordUsername", function(playerId) API:GetDiscordUsername(playerId) end)
+exports("GetDiscordAvatar", function(playerId) API:GetDiscordAvatar(playerId) end)
