@@ -7,9 +7,11 @@ API = setmetatable({ cache = {} }, {
 local token <const> = GetConvar("discord_token", "not-found")
 local guild <const> = GetConvar("discord_guild", "not-found")
 
-if token == "not-found" and guild == "not-found" then 
-  API:logging("warn", ("Missing Information - token: %s, guild: %s"):format(token, guild))
-end
+CreateThread(function()
+  if token == "not-found" and guild == "not-found" then 
+    API:logging("error", ("Missing Information - ^8token: %s^7, ^8guild: %s^7"):format(token, guild))
+  end
+end)
 
 local headers <const> = {
   ["Content-Type"] = "application/json", 
@@ -23,7 +25,7 @@ function API:request(method, endpoint)
   assert(method and endpoint, ("Missing Arguments - method: %s, endpoint: %s"):format(method, endpoint))
 
   if token == "not-found" and guild == "not-found" then 
-    return self:logging("warn", ("Missing Information - token: %s, guild: %s"):format(token, guild))
+    return self:logging("error", ("Missing Information - token: %s, guild: %s"):format(token, guild))
   end
 
   local endpoint <const> = ("https://discord.com/api/v10/%s"):format(endpoint)
@@ -107,11 +109,6 @@ RegisterNetEvent("over_discord:playerLoaded", function()
   local source = source
 
   API:createCache(source)
-
-  print(API:GetDiscordAvatar(source))
-  print(API:GetDiscordRoles(source))
-  print(API:GetDiscordUsername(source))
-  print(json.encode(API:fetchCache(source), { indent = true }))
 end)
 
 exports("FetchCache", function(playerId) API:fetchCache(playerId) end)
