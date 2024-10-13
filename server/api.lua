@@ -11,7 +11,7 @@ CreateThread(function()
   if token == "not-found" and guild == "not-found" then 
     API:logging("error", ("Missing Information - ^8token: %s^7, ^8guild: %s^7"):format(token, guild))
   else
-    local resultGuild = API:request("GET", ("guilds/%s"):format(guild))
+    local resultGuild <const> = API:request("GET", ("guilds/%s"):format(guild))
 
     if resultGuild then
       API:logging("success", ("Authenticated Discord To ^2%s^7"):format(resultGuild.name))
