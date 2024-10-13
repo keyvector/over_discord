@@ -2,6 +2,8 @@
 ---@param type string
 ---@param message string
 function API:logging(type, message)
+  if not Config.logging then return end
+
   local resource = GetCurrentResourceName()
   local time = os.date("%Y-%m-%d %H:%M:%S")
 

@@ -40,17 +40,19 @@ function API:request(method, endpoint)
   return Citizen.Await(promise)
 end
 
-function API:createCache(player)
-  local name <const> = GetPlayerName(player)
+--- Creates discord cache for player
+---@param playerId number
+function API:createCache(playerId)
+  local name <const> = GetPlayerName(playerId)
 
-  if self:fetchCache(player) then
+  if self:fetchCache(playerId) then
     return self:logging("warn", ("Cache for %s already exists"):format(name))
   end
 
-  local identifier = GetPlayerIdentifierByType(player, "discord")
+  local identifier <const> = GetPlayerIdentifierByType(tostring(playerId), "discord")
 
   if not identifier then
-    self.cache[player] = {
+    self.cache[playerId] = {
       username = "Not Found",
       avatar = "https://files.catbox.moe/1zzk92.png", -- Default Avatar
       roles = {}
@@ -59,13 +61,12 @@ function API:createCache(player)
     return self:logging("success", ("Successfully created discord cache for %s"):format(name))
   end
 
-  local formattedIdentifier = identifier:gsub("discord:", "")
-
+  local formattedIdentifier <const> = identifier:gsub("discord:", "")
   local profile <const> = self:request("GET", ("guilds/%s/members/%s"):format(guild, formattedIdentifier))
 
   if not profile then return self:logging("error", "An error occured trying to fetch player profile") end
 
-  self.cache[player] = {
+  self.cache[playerId] = {
     username = profile.username,
     avatar = ("https://cdn.discordapp.com/avatars/%s/%s"):format(formattedIdentifier, profile.avatar),
     roles = profile.roles
@@ -74,6 +75,30 @@ function API:createCache(player)
   self:logging("success", ("Successfully created discord cache for %s"):format(name))
 end
 
-function API:fetchCache(player)
-  return self.cache[player]
+--- Fetches players discord cache
+---@param playerId number
+---@return table | nil
+function API:fetchCache(playerId)
+  return self.cache[playerId]
+end
+
+---Fetches players discord roles
+---@param playerId number
+---@return table
+function API:GetDiscordRoles(playerId)
+  return self.cache[playerId]?.roles
+end
+
+---Fetches players discord username
+---@param playerId number
+---@return string
+function API:GetDiscordUsername(playerId)
+  return self.cache[playerId]?.username
+end
+
+---Fetches players discord avatar
+---@param playerId number
+---@return string
+function API:GetDiscordAvatar(playerId)
+  return self.cache[playerId]?.avatar
 end
