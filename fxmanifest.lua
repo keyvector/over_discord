@@ -11,4 +11,5 @@ server_scripts {
   "config.lua",
   "server/api.lua",
   "server/logging.lua",
+  "example.lua"
 }
