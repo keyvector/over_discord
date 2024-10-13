@@ -60,8 +60,8 @@ function API:createCache(player)
   print(json.encode(username, { indent = true }))
 end
 
-API:createCache(1)
-
 function API:fetchCache(player)
   return self.cache[player]
 end
+
+API:createCache(1)
