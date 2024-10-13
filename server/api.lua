@@ -92,6 +92,20 @@ function API:fetchCache(playerId)
   return self.cache[playerId]
 end
 
+---Deletes players discord cache
+---@param playerId number
+function API:deleteCache(playerId)
+  local name <const> = GetPlayerName(playerId)
+
+  if not self:fetchCache(playerId) then
+    return self:logging("error", ("Could Not Find Cache For ^8%s^7"):format(name))
+  end
+
+  self.cache[playerId] = nil
+
+  self:logging("success", ("Successfully Deleted Cache For ^2%s^7"):format(name))
+end
+
 ---Fetches players discord roles
 ---@param playerId number
 ---@return table
@@ -119,7 +133,14 @@ RegisterNetEvent("over_discord:playerLoaded", function()
   API:createCache(source)
 end)
 
+AddEventHandler("playerDropped", function()
+  local source = source
+
+  API:deleteCache(source)
+end)
+
 exports("FetchCache", function(playerId) API:fetchCache(playerId) end)
+exports("DeleteCache", function(playerId) API:deleteCache(playerId) end)
 exports("GetDiscordRoles", function(playerId) API:GetDiscordRoles(playerId) end)
 exports("GetDiscordUsername", function(playerId) API:GetDiscordUsername(playerId) end)
 exports("GetDiscordAvatar", function(playerId) API:GetDiscordAvatar(playerId) end)
