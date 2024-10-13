@@ -8,10 +8,10 @@ function API:logging(type, message)
   local time = os.date("%Y-%m-%d %H:%M:%S")
 
   if type == "warn" then
-    return print(("[%s] [WARN] [%s] %s"):format(time, resource, message))
+    return print(("^3[%s] [WARN] [%s]^7 %s"):format(time, resource, message))
   elseif type == "success" then
-    return print(("[%s] [SUCCESS] [%s] %s"):format(time, resource, message))
+    return print(("^2[%s] [SUCCESS] [%s]^7 %s"):format(time, resource, message))
   elseif type == "error" then
-    return print(("[%s] [ERROR] [%s] %s"):format(time, resource, message))
+    return print(("^8[%s] [ERROR] [%s]^7 %s"):format(time, resource, message))
   end
 end

@@ -46,7 +46,7 @@ function API:createCache(playerId)
   local name <const> = GetPlayerName(playerId)
 
   if self:fetchCache(playerId) then
-    return self:logging("warn", ("Cache for %s already exists"):format(name))
+    return self:logging("warn", ("Cache For ^3%s^7 Already Exists"):format(name))
   end
 
   local identifier <const> = GetPlayerIdentifierByType(tostring(playerId), "discord")
@@ -58,13 +58,13 @@ function API:createCache(playerId)
       roles = {}
     }
 
-    return self:logging("success", ("Successfully created discord cache for %s"):format(name))
+    return self:logging("success", ("Successfully Created Discord Cache For ^2%s^7"):format(name))
   end
 
   local formattedIdentifier <const> = identifier:gsub("discord:", "")
   local profile <const> = self:request("GET", ("guilds/%s/members/%s"):format(guild, formattedIdentifier))
 
-  if not profile then return self:logging("error", "An error occured trying to fetch player profile") end
+  if not profile then return self:logging("error", "An Error Occured Trying To Fetch Player Profile") end
 
   self.cache[playerId] = {
     username = profile.username,
@@ -72,7 +72,7 @@ function API:createCache(playerId)
     roles = profile.roles
   }
   
-  self:logging("success", ("Successfully created discord cache for %s"):format(name))
+  self:logging("success", ("Successfully Created Discord Cache For ^2%s^7"):format(name))
 end
 
 --- Fetches players discord cache
