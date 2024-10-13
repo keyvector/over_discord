@@ -8,7 +8,7 @@ local function showAdaptiveCard(deferrals)
   return deferrals.presentCard({
     ["type"] = "AdaptiveCard",
     ["$schema"] = "http://adaptivecards.io/schemas/adaptive-card.json",
-    ["version"] = "1.3",
+    ["version"] = "1.2",
     ["body"] = {
       {
         ["type"] = "TextBlock",
