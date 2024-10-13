@@ -30,7 +30,7 @@ end
 
 AddEventHandler("playerConnecting", function(name, _, deferrals)
   local source <const> = source
-  local identifier <const> = GetPlayerIdentifierByType(source, "discord"):gsub("discord:", "")
+  -- local identifier <const> = GetPlayerIdentifierByType(source, "discord"):gsub("discord:", "")
 
   Queue:add(source, identifier, deferrals)
 end)
