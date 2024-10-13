@@ -55,6 +55,7 @@ function API:createCache(player)
       avatar = "https://files.catbox.moe/1zzk92.png", -- Default Avatar
       roles = {}
     }
+    
     return self:logging("succes", ("Successfully created discord cache for %s"):format(name))
   end
 
