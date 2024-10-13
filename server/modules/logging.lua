@@ -1,4 +1,4 @@
---- Send a message in the server console
+--- Logs a message in the server console
 ---@param type string
 ---@param message string
 function Queue:logging(type, message)
