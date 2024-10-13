@@ -1,7 +1,7 @@
 --- Logs a message in the server console
 ---@param type string
 ---@param message string
-function Queue:logging(type, message)
+function API:logging(type, message)
   local resource = GetCurrentResourceName()
   local time = os.date("%Y-%m-%d %H:%M:%S")
 

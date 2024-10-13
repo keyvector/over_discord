@@ -1,8 +1,14 @@
+API = setmetatable({ cache = {} }, {
+  __index = function(table, index)
+    return rawget(table, index)
+  end
+})
+
 local token <const> = GetConvar("discord_token", "not-found")
 local guild <const> = GetConvar("discord_guild", "not-found")
 
 if token == "not-found" and guild == "not-found" then 
-  error(("Missing Information - token: %s, guild: %s"):format(token, guild)) 
+  API:logging("warn", ("Missing Information - token: %s, guild: %s"):format(token, guild))
 end
 
 local headers <const> = {
@@ -10,17 +16,15 @@ local headers <const> = {
   ["Authorization"] = ("Bot %s"):format(token)
 }
 
-API = setmetatable({}, {
-  __index = function(table, index)
-    return rawget(table, index)
-  end
-})
-
 ---Request Discord's API
 ---@param method string
 ---@param endpoint string
 function API:request(method, endpoint)
   assert(method and endpoint, ("Missing Arguments - method: %s, endpoint: %s"):format(method, endpoint))
+
+  if token == "not-found" and guild == "not-found" then 
+    return self:logging("warn", ("Missing Information - token: %s, guild: %s"):format(token, guild))
+  end
 
   local endpoint <const> = ("https://discord.com/api/%s"):format(endpoint)
   local promise = promise.new()
