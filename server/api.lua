@@ -41,23 +41,34 @@ function API:request(method, endpoint)
 end
 
 function API:createCache(player)
+  local name <const> = GetPlayerName(player)
+
   if self:fetchCache(player) then
-    return self:logging("warn", ("Cache for %s already exists"):format(GetPlayerName(player)))
+    return self:logging("warn", ("Cache for %s already exists"):format(name))
   end
 
-  -- local identifier = GetPlayerIdentifierByType(player, "discord"):gsub("discord:", "")
+  local identifier = GetPlayerIdentifierByType(player, "discord"):gsub("discord:", "")
 
-  -- if not identifier then
-  --   self.cache[player] = {
-  --     username = "Not Found",
-  --     avatar = "https://files.catbox.moe/1zzk92.png", -- Default Avatar
-  --     roles = {}
-  --   }
-  -- end
+  if not identifier then
+    self.cache[player] = {
+      username = "Not Found",
+      avatar = "https://files.catbox.moe/1zzk92.png", -- Default Avatar
+      roles = {}
+    }
+    return self:logging("succes", ("Successfully created discord cache for %s"):format(name))
+  end
 
-  local username = self:request("GET", "users/427864377043976216")
+  local profile <const> = self:request("GET", ("guilds/%s/members/%s"):format(guild, identifier))
 
-  print(json.encode(username, { indent = true }))
+  if not profile then return self:logging("error", "An error occured trying to fetch player profile") end
+
+  self.cache[player] = {
+    username = profile.username,
+    avatar = ("https://cdn.discordapp.com/avatars/%s/%s"):format(identifier, profile.avatar),
+    roles = profile.roles
+  }
+  
+  self:logging("succes", ("Successfully created discord cache for %s"):format(name))
 end
 
 function API:fetchCache(player)
