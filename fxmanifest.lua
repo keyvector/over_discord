@@ -6,6 +6,6 @@ author "Edward Lewis"
 description "A queue system to manage player queues."
 
 server_scripts {
-  "server/main.lua",
-  "server/modules/*.lua",
+  "server/api.lua",
+  "server/logging.lua",
 }
