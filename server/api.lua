@@ -10,6 +10,14 @@ local guild <const> = GetConvar("discord_guild", "not-found")
 CreateThread(function()
   if token == "not-found" and guild == "not-found" then 
     API:logging("error", ("Missing Information - ^8token: %s^7, ^8guild: %s^7"):format(token, guild))
+  else
+    local resultGuild = API:request("GET", ("guilds/%s"):format(guild))
+
+    if resultGuild then
+      API:logging("error", ("Authenticated Discord To ^2%s^7"):format(resultGuild.name))
+    else
+      API:logging("error", "Discord Authentication Failed - Make Sure You Configed The Correct Guild And Token")
+    end
   end
 end)
 
