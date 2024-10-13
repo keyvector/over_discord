@@ -5,7 +5,7 @@ Queue = setmetatable({ list = {} }, {
 })
 
 local function showAdaptiveCard(deferrals)
-  return deferrals.presentCard({
+  deferrals.presentCard({
     ["type"] = "AdaptiveCard",
     ["$schema"] = "http://adaptivecards.io/schemas/adaptive-card.json",
     ["version"] = "1.2",
@@ -20,13 +20,13 @@ local function showAdaptiveCard(deferrals)
       }
     }
   })
+  Wait(50000)
 end
 
 function Queue:add(source, identifier, deferrals)
   deferrals.defer()
 
   showAdaptiveCard(deferrals)
-  Wait(50000)
 end
 
 AddEventHandler("playerConnecting", function(name, _, deferrals)
