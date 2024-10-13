@@ -74,5 +74,3 @@ end
 function API:fetchCache(player)
   return self.cache[player]
 end
-
-API:createCache(1)
