@@ -1,6 +1,0 @@
-RegisterCommand("info", function ()
-  print(API:GetDiscordAvatar(source))
-  print(API:GetDiscordRoles(source))
-  print(API:GetDiscordUsername(source))
-  print(json.encode(API:fetchCache(source), { indent = true }))
-end, false)
